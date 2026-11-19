@@ -1,69 +1,129 @@
-import Image from "next/image";
+import { menuItems } from "./navigation-items";
+
+const summaryCards = [
+  { label: "Total sales", value: "৳ 0.00", detail: "All-time sales" },
+  { label: "Today's total sales", value: "৳ 0.00", detail: "Sales recorded today" },
+  { label: "Net cash", value: "৳ 0.00", detail: "Current cash balance" },
+  { label: "Season cash", value: "৳ 0.00", detail: "Cash this season" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="erp-shell">
+      <div className="dashboard">
+        <section className="main-column" aria-label="Business overview">
+          <div className="page-heading">
+            <div>
+              <p className="eyebrow">OVERVIEW</p>
+              <h1>Good morning</h1>
+              <p className="page-subtitle">Here&apos;s how your business is doing today.</p>
+            </div>
+            <div className="date-chip">This month</div>
+          </div>
+
+          <section className="summary-grid" aria-label="Sales and cash summaries">
+            {summaryCards.map((card, index) => (
+              <article className="summary-card" key={card.label}>
+                <div className="card-topline">
+                  <span>{card.label}</span>
+                  <span className={`metric-icon metric-icon-${index + 1}`} aria-hidden="true">
+                    {["↗", "◷", "৳", "▤"][index]}
+                  </span>
+                </div>
+                <p className="metric-value">{card.value}</p>
+                <p className="metric-detail">{card.detail}</p>
+              </article>
+            ))}
+          </section>
+
+          <section className="panel sales-panel" aria-labelledby="sales-heading">
+            <div className="panel-heading">
+              <div>
+                <h2 id="sales-heading">Sales overview</h2>
+                <p>Track sales by day throughout the month.</p>
+              </div>
+              <span className="period-select">This month <span aria-hidden="true">⌄</span></span>
+            </div>
+            <div className="chart" role="img" aria-label="Monthly sales chart, no sales data recorded yet">
+              <div className="chart-y-labels" aria-hidden="true">
+                <span>৳ 4k</span><span>৳ 3k</span><span>৳ 2k</span><span>৳ 1k</span><span>৳ 0</span>
+              </div>
+              <div className="chart-plot">
+                <div className="chart-gridline" /><div className="chart-gridline" />
+                <div className="chart-gridline" /><div className="chart-gridline" />
+                <div className="chart-gridline" />
+                <div className="chart-empty">
+                  <span className="empty-chart-icon" aria-hidden="true">⌁</span>
+                  <span>Sales data will appear here</span>
+                  <span className="chart-empty-subtitle">Add a sale to start tracking your month</span>
+                </div>
+                <div className="chart-x-labels" aria-hidden="true">
+                  <span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span>
+                </div>
+              </div>
+            </div>
+            <div className="chart-legend"><span /> Sales</div>
+          </section>
+        </section>
+
+        <aside className="right-column" aria-label="Quick access and activity">
+          <section className="panel quick-panel" aria-labelledby="quick-heading">
+            <div className="panel-heading compact-heading">
+              <div>
+                <h2 id="quick-heading">Quick actions</h2>
+                <p>Common tasks, all in one place.</p>
+              </div>
+              <span className="quick-heading-icon" aria-hidden="true">✦</span>
+            </div>
+            <div className="quick-actions">
+              {menuItems.filter((item) => item.target !== "profile" && item.target !== "dashboard").map((item, index) => (
+                <a
+                  className="quick-action"
+                  href={item.target === "import-paddy"
+                    ? "/import-paddy"
+                    : item.target === "add-sales"
+                      ? "/sales"
+                      : item.target === "add-purchase"
+                        ? "/purchase"
+                        : item.target === "add-expense"
+                          ? "/expense"
+                      : `#${item.target}`}
+                  id={item.target}
+                  key={item.target}
+                >
+                  <span className={`quick-icon quick-icon-${index + 1}`} aria-hidden="true">{item.icon}</span>
+                  <span>{item.label}</span>
+                  <span className="action-arrow" aria-hidden="true">↗</span>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section className="panel activity-panel" aria-labelledby="activity-heading">
+            <div className="panel-heading compact-heading">
+              <div>
+                <h2 id="activity-heading">Recent activity</h2>
+                <p>Your latest business updates.</p>
+              </div>
+              <span className="activity-dots" aria-hidden="true">•••</span>
+            </div>
+            <div className="activity-empty">
+              <span className="activity-empty-icon" aria-hidden="true">↻</span>
+              <strong>Nothing to show yet</strong>
+              <span>Your recent sales and purchases will show up here.</span>
+            </div>
+          </section>
+
+          <section className="profile-card" id="profile">
+            <div className="profile-avatar">Y</div>
+            <div>
+              <strong>Your profile</strong>
+              <span>Business owner</span>
+            </div>
+            <span className="profile-more" aria-hidden="true">···</span>
+          </section>
+        </aside>
+      </div>
+    </main>
   );
 }
